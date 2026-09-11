@@ -48,22 +48,6 @@ const intelHtml = `<!doctype html>
 </html>
 `;
 
-const successionHtml = `<!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>种马设计</title>
-		<link rel="icon" type="image/png" href="../favicon.ico">
-		<script type="module" crossorigin src="../bundle.js"></script>
-		<link rel="stylesheet" crossorigin href="../bundle.css">
-	</head>
-	<body>
-		<div id="app"></div>
-	</body>
-</html>
-`;
-
 function intelRouteHtml() {
   return {
     name: "intel-route-html",
@@ -72,21 +56,6 @@ function intelRouteHtml() {
       const intelDir = path.resolve(options.dir, "intel");
       fs.mkdirSync(intelDir, { recursive: true });
       fs.writeFileSync(path.join(intelDir, "index.html"), intelHtml);
-    },
-  };
-}
-
-function successionRouteHtml() {
-  return {
-    name: "succession-route-html",
-    writeBundle(options) {
-      if (!options.dir) return;
-      const successionDir = path.resolve(options.dir, "succession");
-      fs.mkdirSync(successionDir, { recursive: true });
-      fs.writeFileSync(
-        path.join(successionDir, "index.html"),
-        successionHtml,
-      );
     },
   };
 }
@@ -100,7 +69,6 @@ export default defineConfig(({ mode }) => {
       preact(),
       legacyCnRedirect(),
       intelRouteHtml(),
-      successionRouteHtml(),
     ],
     define: {
       CC_DEBUG: JSON.stringify(debug),
