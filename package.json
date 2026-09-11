@@ -1,0 +1,36 @@
+{
+  "name": "uma-tools",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "vite",
+    "dev:debug": "vite --mode debug",
+    "prebuild": "python scripts/generate_site_results.py",
+    "update:data": "python scripts/update_data.py --build",
+    "build": "vite build",
+    "build:debug": "vite build --mode debug",
+    "preexport": "npm run build",
+    "export": "node scripts/export_intel.mjs",
+    "preview": "vite preview"
+  },
+  "author": "pecan",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@preact/preset-vite": "^2.9.2",
+    "autoprefixer": "^10.4.23",
+    "playwright-core": "^1.62.1",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.9.3",
+    "vite": "^6.0.3"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "immutable": "^5.0.3",
+    "immutable-sorted": "^0.2.11",
+    "posthog-js": "^1.257.0",
+    "preact": "^10.18.1",
+    "preact-i18n": "^2.4.0-preactx"
+  }
+}

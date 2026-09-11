@@ -1,0 +1,8 @@
+node_modules/
+*/__pycache__
+.env
+.env.local
+*.sqlite
+result/
+dist/
+var/need-unpack/

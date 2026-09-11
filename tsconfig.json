@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "lib": ["es2018", "dom"],
+    "module": "esnext",
+    "target": "es2020",
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["vite/client"],
+    "preserveConstEnums": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["umalator/src/app/*"],
+      "@components/*": ["umalator/src/components/*"],
+      "@shared/*": ["umalator/src/shared/*"],
+      "@data/*": ["umalator/data/*"],
+      "@sim/*": ["uma-skill-tools/*"]
+    }
+  },
+  "include": ["umalator/src", "uma-skill-tools"]
+}

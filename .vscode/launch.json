@@ -1,0 +1,50 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "umas",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "python\\umas.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "skills",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "python\\skills.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "slope.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "python\\slope.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "old_course_convert.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "python\\old_course_convert.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "main.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "python\\main.py",
+            "console": "integratedTerminal"
+        }
+    ]
+}
