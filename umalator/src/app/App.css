@@ -185,6 +185,13 @@ a:hover {
   line-height: 1.2;
 }
 
+.appNav .appLogo {
+  display: block;
+  height: 64px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
 .appNav span {
   color: var(--uma-muted);
   font-size: 12px;
