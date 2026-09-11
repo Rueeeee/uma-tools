@@ -187,7 +187,7 @@ a:hover {
 
 .appNav .appLogo {
   display: block;
-  height: 64px;
+  height: 128px;
   max-width: 100%;
   object-fit: contain;
 }
