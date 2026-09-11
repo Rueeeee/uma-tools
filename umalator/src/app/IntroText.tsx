@@ -10,7 +10,7 @@ export function IntroText(props) {
         <a href="https://github.com/alpha123/uma-skill-tools">simulator</a>、
         <a href="https://github.com/alpha123/uma-tools">UI</a>
         <br />
-        GitHub 仓库链接：<a href="https://github.com/mikumifa/uma-tools">UI</a>
+        GitHub 仓库链接：<a href="https://github.com/Rueeeee/uma-tools">UI</a>
         <br />
       </footer>
     </div>

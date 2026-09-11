@@ -652,9 +652,9 @@ function AppNav({
         <strong>《闪耀优俊少女》工具集</strong>
         <a
           class="appRepositoryLink"
-          href="https://github.com/mikumifa/uma-tools"
+          href="https://github.com/Rueeeee/uma-tools"
         >
-          github.com/mikumifa/uma-tools
+          github.com/Rueeeee/uma-tools
         </a>
       </div>
       <nav aria-label="功能切换">
