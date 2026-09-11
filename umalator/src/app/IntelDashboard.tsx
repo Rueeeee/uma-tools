@@ -288,6 +288,26 @@ function currentTimestamp() {
   return Math.floor(Date.now() / 1000);
 }
 
+function remainingLabel(endTimestamp: number, now: number) {
+  const seconds = endTimestamp - now;
+  if (seconds <= 0) return "";
+  const days = Math.floor(seconds / 86400);
+  if (days >= 1) return `剩 ${days} 天`;
+  const hours = Math.floor(seconds / 3600);
+  if (hours >= 1) return `剩 ${hours} 小时`;
+  return "即将结束";
+}
+
+function upcomingLabel(startTimestamp: number, now: number) {
+  const seconds = startTimestamp - now;
+  if (seconds <= 0) return "";
+  const days = Math.floor(seconds / 86400);
+  if (days >= 1) return `${days} 天后`;
+  const hours = Math.floor(seconds / 3600);
+  if (hours >= 1) return `${hours} 小时后`;
+  return "即将开始";
+}
+
 function CardImage({ card }: { card: GachaCard }) {
   if (!card.image) {
     return (
@@ -2989,6 +3009,11 @@ function GachaList({
         const active = pool.startTimestamp <= now && pool.endTimestamp >= now;
         const upcoming = pool.startTimestamp > now;
         const cover = poolCover(pool);
+        const statusLabel = active
+          ? remainingLabel(pool.endTimestamp, now)
+          : upcoming
+            ? upcomingLabel(pool.startTimestamp, now)
+            : "";
         return (
           <button
             type="button"
@@ -2997,13 +3022,26 @@ function GachaList({
             onClick={() => onSelect(pool)}
             key={poolKey(pool)}
           >
-            {cover && (
-              <img
-                src={assetUrl(cover)}
-                alt={`${pool.type}封面`}
-                loading="lazy"
-              />
-            )}
+            <div class="intelGachaCover">
+              {cover && (
+                <img
+                  src={assetUrl(cover)}
+                  alt={`${pool.type}封面`}
+                  loading="lazy"
+                />
+              )}
+              {active && (
+                <span class="intelPoolStatus">
+                  <i />
+                  进行中
+                </span>
+              )}
+              {statusLabel && (
+                <span class={`intelGachaCountdown ${upcoming ? "upcoming" : ""}`}>
+                  {statusLabel}
+                </span>
+              )}
+            </div>
             <div class="intelGachaListMeta">
               <strong>{pool.name || pool.type}</strong>
               <span>{poolSummary(pool, 12)}</span>
@@ -3011,7 +3049,6 @@ function GachaList({
               <FreeDrawBadges pool={pool} inline />
             </div>
             <UpPreview pool={pool} />
-            {active && <span class="intelPoolStatus">进行中</span>}
           </button>
         );
       })}
@@ -3081,6 +3118,12 @@ function EventsSchedule({
             {groups[month].map((event) => {
               const active =
                 event.startTimestamp <= now && event.endTimestamp >= now;
+              const upcoming = event.startTimestamp > now;
+              const statusLabel = active
+                ? `进行中 · ${remainingLabel(event.endTimestamp, now)}`
+                : upcoming
+                  ? upcomingLabel(event.startTimestamp, now)
+                  : "";
               return (
                 <article
                   class={`intelEventItem ${event.image ? "hasImage" : ""} ${scheduleImageClass(event.image)} ${scheduleTypeClass(event.type)} ${active ? "active" : ""}`}
@@ -3105,7 +3148,7 @@ function EventsSchedule({
                   <strong>{event.name}</strong>
                   <time>{scheduleDateLabel(event)}</time>
                   <DropIcons drops={event.drops} />
-                  {active && <span>进行中</span>}
+                  {statusLabel && <span class={upcoming ? "upcomingBadge" : ""}>{statusLabel}</span>}
                 </article>
               );
             })}
@@ -3549,7 +3592,7 @@ export function IntelDashboard() {
     setDetailKey(nextKey);
   };
   const exportSource: ExportImageSource = {
-      pools: filteredPools.filter((pool) => pool.startTimestamp > now),
+      pools: filteredPools.filter((pool) => pool.endTimestamp >= now),
       events: filteredEvents.filter((event) => event.startTimestamp > now),
       races: races.filter((race) => race.startTimestamp > now),
       now,
@@ -3572,6 +3615,18 @@ export function IntelDashboard() {
       }
     };
   }, [filteredPools, filteredEvents, races, now, data.generatedAt]);
+  const activePools = pools.filter(
+    (pool) => pool.startTimestamp <= now && pool.endTimestamp >= now,
+  );
+  const activeEvents = (data.events || []).filter(
+    (event) => event.startTimestamp <= now && event.endTimestamp >= now,
+  );
+  const activeRaces = races.filter(
+    (race) => race.startTimestamp <= now && race.endTimestamp >= now,
+  );
+  const soonestEnding = [...activePools, ...activeEvents, ...activeRaces].sort(
+    (a, b) => a.endTimestamp - b.endTimestamp,
+  )[0];
   return (
     <main class="intelPage">
       <button
@@ -3595,6 +3650,25 @@ export function IntelDashboard() {
         aria-hidden="true"
         onClick={() => exportForAutomation("races")}
       />
+      <div class="intelLiveBar">
+        <div class="intelLiveStats">
+          <span class="intelLiveStat">
+            <strong>{activePools.length}</strong> 卡池
+          </span>
+          <span class="intelLiveStat">
+            <strong>{activeEvents.length}</strong> 活动
+          </span>
+          <span class="intelLiveStat">
+            <strong>{activeRaces.length}</strong> 大赛
+          </span>
+          <span class="intelLiveHint">正在进行</span>
+        </div>
+        {soonestEnding && (
+          <span class="intelLiveDeadline">
+            ⏳ 最近截止:{remainingLabel(soonestEnding.endTimestamp, now)}
+          </span>
+        )}
+      </div>
       <div class="intelTopBar">
         <nav class="intelTabs" aria-label="情报分类">
           <button
