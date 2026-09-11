@@ -8,13 +8,7 @@ function AppNav() {
   return (
     <header class="appNav">
       <div>
-        <strong>《闪耀优俊少女》工具集</strong>
-        <a
-          class="appRepositoryLink"
-          href="https://github.com/Rueeeee/uma-tools"
-        >
-          github.com/Rueeeee/uma-tools
-        </a>
+        <strong>《闪耀优俊少女》排期查询</strong>
       </div>
     </header>
   );
