@@ -15,6 +15,23 @@ Fork 自 [mikumifa/uma-tools](https://github.com/mikumifa/uma-tools),在其情�
 - 支持导出当前排期为长图(脚本自动化用)
 - 响应式布局,宽屏居中、移动端单列
 
+## 安装到手机(PWA)
+
+站点带 Web App Manifest,可以不装 App 直接挂到手机桌面,打开就是全屏无地址栏:
+
+- **iPhone**:Safari 打开线上地址 → 分享 → 添加到主屏幕
+- **Android**:Chrome 打开 → 菜单 → 安装应用 / 添加到主屏幕
+
+图标由 `assets/app-icon.png`(1024×1024 透明底立绘)生成,改了源图后重新跑:
+
+```bash
+uv run --with pillow python scripts/make_pwa_icons.py
+```
+
+会覆盖 `umalator/public/` 下的 `icon-192.png`、`icon-512.png`、`icon-maskable-512.png`(Android 圆形遮罩用)和 `apple-touch-icon.png`。Manifest 本身在 `umalator/public/manifest.webmanifest`,主题色取自 `--uma-pink`。
+
+> iOS 的 `apple-touch-icon` 不支持透明,生成脚本会把立绘合成到实底(`#fdf6f0`)上。
+
 ## 数据来源
 
 所有排期数据来自国服客户端解包的 `master.mdb`(SQLite),由 `scripts/generate_site_results.py` 解析生成:
@@ -65,7 +82,8 @@ UMA_TEXTURE2D_DIR=D:\Apps\umas\export\Texture2D
 umalator/            前端应用(Preact + Vite)
   src/app/           页面入口、情报汇总面板、导出图片逻辑
   data/              生成的前端 JSON 数据(@data/*)
-  public/            静态资源(图标、banner 等)
-scripts/             数据解析脚本(master.mdb → JSON)
+  public/            静态资源(图标、banner、PWA manifest 等)
+scripts/             数据解析脚本(master.mdb → JSON)与 PWA 图标生成脚本
+assets/             源素材(app-icon.png 等,不参与构建)
 uma-skill-tools/     模拟器领域库(当前界面未使用,保留备用)
 ```
